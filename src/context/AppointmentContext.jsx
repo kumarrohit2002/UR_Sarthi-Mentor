@@ -10,12 +10,12 @@ import Cookies from 'js-cookie';
 export const AppointmentContext = createContext();
 
 export default function AppointmnetContextProvider({ children }) {
-    const BaseUrl='http://localhost:4000/api/v1';
+    const BaseUrl=import.meta.env.VITE_BASE_URL;
     const [myAppiontment,setMyAppiontment] = useState([]);
 
     const getMyAppiontment =async()=>{
         try{
-            const response=await axios.post(`${BaseUrl}/appointment/my-appointment`,{},{ withCredentials: true });
+            const response=await axios.post(`${BaseUrl}/api/v1/appointment/my-appointment`,{},{ withCredentials: true });
             const appointments=response.data.appointments;
             setMyAppiontment(appointments);
 

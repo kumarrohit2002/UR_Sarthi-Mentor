@@ -10,7 +10,7 @@ const MentorProfile = () => {
     const {logOut} =useContext(authContext);
 
     useEffect(()=>{getMentorProfileData()},[]);
-    console.log(mentorData);
+    // console.log(mentorData);
 
     const StarRating = ({ rating }) => {
       return (

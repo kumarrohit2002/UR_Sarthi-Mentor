@@ -11,15 +11,15 @@ import { ToastContainer } from 'react-toastify';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <MentorProfileContextProvider>
-      <AuthContextProvider>
-        <AppointmnetContextProvider>
-          <BrowserRouter>
+    <BrowserRouter>
+      <MentorProfileContextProvider>
+        <AuthContextProvider>
+          <AppointmnetContextProvider>
             <App />
             <ToastContainer />
-          </BrowserRouter>
-        </AppointmnetContextProvider>
-      </AuthContextProvider>
-    </MentorProfileContextProvider>
+          </AppointmnetContextProvider>
+        </AuthContextProvider>
+      </MentorProfileContextProvider>
+    </BrowserRouter>
   </StrictMode>,
 )

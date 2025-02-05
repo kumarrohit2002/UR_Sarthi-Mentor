@@ -11,7 +11,8 @@ import Cookies from 'js-cookie';
 export const MentorProfileContext = createContext();
 
 export default function MentorProfileContextProvider({ children }) {
-    const BaseUrl = 'http://localhost:4000/api/v1';
+
+    const BaseUrl = import.meta.env.VITE_BASE_URL;
     const [profilePic,setProfilePic]=useState(profileimg);
 
     const getToken = () => Cookies.get('token');
@@ -66,7 +67,7 @@ export default function MentorProfileContextProvider({ children }) {
           formData.append('imageFile', file);
           let response;
           try {
-            response = await axios.post(`${BaseUrl}/upload-profile-pic`, formData, { withCredentials: true });
+            response = await axios.post(`${BaseUrl}/api/v1/upload-profile-pic`, formData, { withCredentials: true });
     
             const imageUrl = response.data.profile.profilePic; // Assuming the server returns the URL
             setProfilePic(imageUrl);
@@ -83,7 +84,7 @@ export default function MentorProfileContextProvider({ children }) {
 
     const getMentorProfileData=async()=>{
         try{
-            const response=await axios.post(`${BaseUrl}/mentor/getMentorProfile`, {}, { withCredentials: true });
+            const response=await axios.post(`${BaseUrl}/api/v1/mentor/getMentorProfile`, {}, { withCredentials: true });
             const profileData=response.data.mentorProfile[0];
             setMentorData({
               name: profileData.name,
@@ -105,6 +106,7 @@ export default function MentorProfileContextProvider({ children }) {
               perHourcharge:profileData.perHourcharge,
             });
             setProfilePic(profileData.profilePic);
+            // console.log(profileData);
 
         }catch(error){
             console.log(error);
@@ -113,7 +115,7 @@ export default function MentorProfileContextProvider({ children }) {
 
     const getMentorReview=async()=>{
         try{
-            const response=await axios.post(`${BaseUrl}/getReview`,{},{ withCredentials: true });
+            const response=await axios.post(`${BaseUrl}/api/v1/getReview`,{},{ withCredentials: true });
             console.log(response.data);
             
         }catch(error){
@@ -130,7 +132,7 @@ export default function MentorProfileContextProvider({ children }) {
   
       try {
           const response = await axios.post(
-              `${BaseUrl}/mentor/create-or-update-profile`,
+              `${BaseUrl}/api/v1/mentor/create-or-update-profile`,
               {
                   name,
                   dob,
@@ -160,7 +162,7 @@ export default function MentorProfileContextProvider({ children }) {
 
   const createNewPost=async(postjobData)=>{
     try{
-      const reaponse=await axios.post(`${BaseUrl}/mentor/post-new-job`,postjobData,{ withCredentials: true });
+      const reaponse=await axios.post(`${BaseUrl}/api/v1/mentor/post-new-job`,postjobData,{ withCredentials: true });
       console.log(reaponse.data);
       toast.success('JobPortal created successfully!');
 
