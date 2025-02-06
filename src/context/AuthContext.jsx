@@ -1,15 +1,17 @@
 
-import { createContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
+import { MentorProfileContext } from './MentorProfileContext';
 
 // Create the context
 export const authContext = createContext();
 
 export default function AuthContextProvider({ children }) {
+  const {getMentorProfileData}=useContext(MentorProfileContext);
   const baseUrl=import.meta.env.VITE_BASE_URL;
   const [isLogin, setIsLogin] = useState(true);
   const [isSignUp, setIsSignUp] = useState(false);
@@ -32,7 +34,7 @@ export default function AuthContextProvider({ children }) {
     toast.success('LogOut succefully!!!');
     localStorage.removeItem('token');
     Cookies.remove('token', { path: '/', domain: 'localhost' });
-    window.location.href = 'http://localhost:5173/';
+    window.location.href = import.meta.env.VITE_USER_URL;
   }
 
   const handleLoginSignup = async (e) => {
@@ -66,8 +68,13 @@ export default function AuthContextProvider({ children }) {
       try {
         const response = await axios.post(`${baseUrl}/api/v1/user/login`, { email, password }, { withCredentials: true });
         console.log(response.data);
+        if(response.data.user.role!='MENTOR'){
+          toast.error("This is Not Mentor Account!!");
+          return;
+        }
         toast.success("You have successfully logged in!");
         localStorage.setItem('userlogin', true);
+        getMentorProfileData();
         // setUserLogedin(true);
       } catch (error) {
         if (error.response && error.response.data && error.response.data.message){

@@ -1,10 +1,13 @@
-import profilePic from '../assets/ProfilePic.jpeg';
 import {Link} from 'react-router-dom'
 // import logo from '../assets/assets/svg/'
 import Mlogo from '../assets/Mlogo.jpg'
+import {MentorProfileContext} from '../context/MentorProfileContext';
+import { useContext } from 'react';
 
 
 const Navbar = () => {
+    const {profilePic}=useContext(MentorProfileContext);
+    
     return (
         <div className="flex justify-between bg-[#0F172A] border-b border-gray-500 p-4 px-5">
             <div>
