@@ -14,8 +14,14 @@ export default function AppointmnetContextProvider({ children }) {
     const [myAppiontment,setMyAppiontment] = useState([]);
 
     const getMyAppiontment =async()=>{
+    const token = Cookies.get("token");
+
         try{
-            const response=await axios.post(`${BaseUrl}/api/v1/appointment/my-appointment`,{},{ withCredentials: true });
+            const response=await axios.get(`${BaseUrl}/api/v1/appointment/my-appointment`,{
+              withCredentials: true, // Ensures cookies (including tokens) are sent
+              headers: {
+                  Authorization: `Bearer ${token}`, // Send token in headers (if applicable)
+              }});
             const appointments=response.data.appointments;
             setMyAppiontment(appointments);
 

@@ -22,7 +22,12 @@ const EditMentorProfile = () => {
         achievements: achievements,
         profileImage: '',
         perHourcharge: mentorData.perHourcharge || '',
-        preferredSchedule: mentorData.preferredSchedule || [{ day: 'Monday', times: [{ time: '', ampm: 'AM' }] }],
+        preferredSchedule: mentorData.preferredSchedule || {
+            startWeekDay: 'Monday',
+            endWeekDay: 'Friday',
+            dayStartTime: '09:00 AM',
+            dayEndTime: '11:00 PM',
+        },
         phone: mentorData.phone || '+91',
         category: mentorData.category || ''
     });
@@ -57,46 +62,6 @@ const EditMentorProfile = () => {
         setFormData({ ...formData, socialMedia: updatedSocialMedia });
     };
 
-    const handleScheduleChange = (dayIndex, timeIndex, value, field) => {
-        const updatedSchedule = formData.preferredSchedule.map((schedule, index) => {
-            if (index === dayIndex) {
-                const updatedTimes = schedule.times.map((timeObj, i) =>
-                    i === timeIndex ? { ...timeObj, [field]: value } : timeObj
-                );
-                return { ...schedule, times: updatedTimes };
-            }
-            return schedule;
-        });
-        setFormData({ ...formData, preferredSchedule: updatedSchedule });
-    };
-
-    const addTimeSlot = (dayIndex) => {
-        const updatedSchedule = formData.preferredSchedule.map((schedule, index) => {
-            if (index === dayIndex) {
-                return { ...schedule, times: [...schedule.times, { time: '', ampm: 'AM' }] };
-            }
-            return schedule;
-        });
-        setFormData({ ...formData, preferredSchedule: updatedSchedule });
-    };
-
-    const addDaySlot = () => {
-        setFormData({
-            ...formData,
-            preferredSchedule: [...formData.preferredSchedule, { day: 'Monday', times: [{ time: '', ampm: 'AM' }] }]
-        });
-    };
-
-    const handleDayChange = (dayIndex, newDay) => {
-        const updatedSchedule = formData.preferredSchedule.map((schedule, index) => {
-            if (index === dayIndex) {
-                return { ...schedule, day: newDay };
-            }
-            return schedule;
-        });
-        setFormData({ ...formData, preferredSchedule: updatedSchedule });
-    };
-
     return (
         <div>
             <Navbar />
@@ -127,7 +92,7 @@ const EditMentorProfile = () => {
                     <div className='w-[90%] bg-[#0F172A] p-8 rounded-lg shadow-lg'>
                         <h1 className='text-center text-3xl font-semibold text-white mb-6'>Edit Profile</h1>
                         <form onSubmit={(e) => { e.preventDefault(); updateMentorProfile(formData); }}>
-                            
+
                             {/* Name */}
                             <div className='mb-4'>
                                 <label className='text-white text-lg'>Name:</label>
@@ -326,43 +291,39 @@ const EditMentorProfile = () => {
                             {/* Preferred Schedule Section */}
                             <div className='mb-4'>
                                 <label className='text-white text-lg'>Preferred Schedule:</label>
-                                {formData.preferredSchedule.map((schedule, dayIndex) => (
-                                    <div key={dayIndex} className="mb-4 border p-4 rounded-md bg-[#1E293B]">
-                                        <select
-                                            className="p-2 bg-gray-800 text-white rounded-md w-full mb-2"
-                                            value={schedule.day}
-                                            onChange={(e) => handleDayChange(dayIndex, e.target.value)}
-                                        >
-                                            <option value="">Select Day</option>
-                                            {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => (
-                                                <option key={day} value={day}>{day}</option>
-                                            ))}
-                                        </select>
-
-                                        {schedule.times.map((timeObj, timeIndex) => (
-                                            <div key={timeIndex} className="flex gap-2 mb-2">
-                                                <input required
-                                                    type="text"
-                                                    placeholder="Time (e.g., 6:00)"
-                                                    className="p-2 bg-gray-800 text-white rounded-md w-2/3"
-                                                    value={timeObj.time}
-                                                    onChange={(e) => handleScheduleChange(dayIndex, timeIndex, e.target.value, 'time')}
-                                                />
-                                                <select
-                                                    className="p-2 bg-gray-800 text-white rounded-md w-1/3"
-                                                    value={timeObj.ampm}
-                                                    onChange={(e) => handleScheduleChange(dayIndex, timeIndex, e.target.value, 'ampm')}
-                                                >
-                                                    <option value="AM">AM</option>
-                                                    <option value="PM">PM</option>
-                                                </select>
-                                            </div>
-                                        ))}
-
-                                        <button type="button" className="mt-2 bg-blue-500 px-3 py-1 text-white rounded-lg" onClick={() => addTimeSlot(dayIndex)}>+ Add Time Slot</button>
-                                    </div>
-                                ))}
-                                <button type="button" className="mt-2 bg-green-500 px-3 py-1 text-white rounded-lg" onClick={addDaySlot}>+ Add Day</button>
+                                <p className='text-white'>Monday to Friday</p>
+                                <div className='flex items-center gap-2'>
+                                    <input required
+                                        type="time"
+                                        value={formData.preferredSchedule.dayStartTime}
+                                        onChange={(e)=>{setFormData({
+                                            ...formData,
+                                            preferredSchedule: {
+                                                ...formData.preferredSchedule,
+                                                dayStartTime: e.target.value
+                                            }})
+                                            console.log(formData.preferredSchedule.dayStartTime);
+                                            }   
+                                        }
+                                        className='rounded-sm p-1 text-black'
+                                    /> 
+                                    <p className="text-white">AM To</p>
+                                    <input required
+                                        type="time"
+                                        value={formData.preferredSchedule.dayEndTime}
+                                        onChange={(e) => {setFormData({
+                                            ...formData,
+                                            preferredSchedule: {
+                                                ...formData.preferredSchedule,
+                                                dayEndTime: e.target.value
+                                            }})
+                                            console.log(formData.preferredSchedule.dayEndTime);
+                                            }
+                                        }
+                                        className='rounded-sm p-1 text-black'
+                                    />
+                                    <p className="text-white">PM</p>
+                                </div>
                             </div>
 
                             {/* Submit Button */}

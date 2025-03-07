@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const MyAppointmentCard = ({item}) => {
   const {formatDate}=useContext(AppointmentContext);
   let {status,phone,slot,roomNo}=item;
-  let {name,profilePic}=item.user;
+  let {name,profilePic}=item.userId;
   
   slot=formatDate(slot);
 
