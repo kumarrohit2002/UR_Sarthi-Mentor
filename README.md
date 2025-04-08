@@ -1,25 +1,43 @@
 
 ## 🧑‍🏫 PART 2: MENTOR MODULE
+![Main Page](public/mainPage.png)
+
 
 ### ✨ Features for Mentors
 
 - 🔐 Mentor Signup/Login with OTP
-
+![signup-login Page](public/signup.png)
 - 👤 Create & update detailed mentor profile
+![create update Profile Page](public/createUpdatedProfile.png)
 - 🛠 Add expertise, skills, achievements, and availability
+![Add expertise, skills, achievements etc..](public/addProfileData.png)
 - 📆 View and manage booked appointments
-- 📈 View reviews and ratings from mentees
+![View and manage booked appointments](public/bookedAppointments.png)
 
 ### 📂 Folder Structure (Relevant for Mentors)
 
 ```
 src/
-├── pages/Mentor/
-│   ├── Dashboard.js
-│   ├── ProfileSetup.js
-│   ├── Appointments.js
-├── components/Mentor/
-│   └── UserAppointmentCard.js
+├── pages/
+│   ├── EditMentorProfile.jsx
+│   ├── MentorHomePage.jsx
+│   ├── MentorProfile.jsx
+|   |── MyAppointment.jsx
+|   |── Room.jsx  # for video call
+├── components/
+│   └── CreateJob.jsx
+│   └── LoginSigup.jsx
+│   └── Navbar.jsx
+│   └── OtpInput.jsx
+│   └── MentorLandingPage.jsx
+│   └── MyAppointmentCard.jsx
+│   └── FAQSection.jsx
+│   └── TestimonialPage.jsx
+├── components/
+│   └── AppointmentContext.jsx
+│   └── AuthContext.jsx
+│   └── MentorProfileContext.jsx
+
 ```
 
 ### 🧪 Sample Mentor Workflow
@@ -89,6 +107,3 @@ This project is licensed under the [MIT License](LICENSE)
 Thanks to all mentors and mentees for being a part of the URSARATHI community and making knowledge sharing accessible!
 
 ---
-```
-
-Let me know if you'd like to add deployment instructions (e.g., Vercel, Netlify) or screenshots for UI walkthroughs.
